@@ -26,4 +26,8 @@ export default class ExceptionHandler extends HttpExceptionHandler {
   constructor() {
     super(Logger)
   }
+  public async handle(error: any, ctx: any) {
+    console.log(error)
+    ctx.response.status(error.status).send(error.message)
+  }
 }

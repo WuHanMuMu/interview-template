@@ -20,6 +20,17 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+
+
+Route.group(() => {
+  Route.get('/list', 'ProductController.list')
+}).prefix('/products')
+
+Route.group(() => {
+  Route.post('/login', 'AuthController.login')
+  Route.post('/register', 'AuthController.register')
+}).prefix('/users')
+
 Route.get('/', async ({ view }) => {
   return view.render('welcome')
 })
