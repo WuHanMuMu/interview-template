@@ -6,14 +6,16 @@
           <span v-if="login">{{user.name}}</span>
       </el-header>
       <el-main>
-        <div>
-            
+        <div v-if="admin">
+          <upload></upload>
           <el-button type="primary">el-button</el-button>
         </div>
-        <login v-if="!login" @loginSuccess="loginSuccess"></login>
-        <productList v-if="login">商品列表</productList>
-        <div>
-
+        <div v-else>
+          <login v-if="!login" @loginSuccess="loginSuccess"></login>
+          <productList v-if="login">商品列表</productList>
+          <div>
+        </div>
+        
         </div>
       </el-main>
     </el-container>
@@ -35,13 +37,19 @@ export default {
       name: '',
       password: '',
       token: ''
-    }
+    },
+    admin: false
   }),
   methods: {
     loginSuccess(user: any) {
       this.login = true
       this.user.name = '小汪'
       this.user.token = user.token
+    }
+  },
+  mounted() {
+    if (location.pathname === '/admin') {
+      this.admin = true
     }
   }
 }

@@ -20,10 +20,9 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-
-
 Route.group(() => {
-  Route.get('/list', 'ProductController.list')
+  Route.get('/list', 'ProductController.list').middleware('auth')
+  Route.get('/create', 'ProductController.create')
 }).prefix('/products')
 
 Route.group(() => {

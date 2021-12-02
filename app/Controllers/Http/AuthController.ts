@@ -2,9 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
 export default class AuthController {
-  public async login({ request, auth }: HttpContextContract) {
-    // const { email, password } = request.all()
-
+  public async login({ request, auth, success }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
     const token = await auth.use('api').attempt(email, password, {
@@ -13,7 +11,6 @@ export default class AuthController {
     return token.toJSON()
   }
 
-  // The register method Creates a New User object and save it to the database.
   public async register({ request, auth }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
@@ -23,8 +20,7 @@ export default class AuthController {
       name: schema.string({ trim: true }),
       password: schema.string({ trim: true }),
     })
-    const payload = await request.validate({ schema: userSchema })
-    console.log(payload)
+    await request.validate({ schema: userSchema })
     const count = await User.findBy('email', email)
     if (count) return { message: 'Email already exists' }
     const user = new User()
