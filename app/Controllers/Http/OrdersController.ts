@@ -4,4 +4,9 @@ export default class OrdersController {
   public async create({ request, auth, success }: HttpContextContract) {
     const productId = request.input('productId')
   }
+
+  public async test() {
+    console.log('1')
+    return 200
+  }
 }

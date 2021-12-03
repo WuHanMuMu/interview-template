@@ -24,7 +24,8 @@ export default class AuthMiddleware {
    * during the current request.
    */
   protected async authenticate(
-    { auth, request }: HttpContextContract,
+    auth: HttpContextContract['auth'],
+    request: HttpContextContract['request'],
     guards: (keyof GuardsList)[]
   ) {
     /**
@@ -45,7 +46,7 @@ export default class AuthMiddleware {
          * succeeded here
          */
         auth.defaultGuard = guard
-        request.userId = auth.user?.id
+        // request.userId = auth?.user?.id
         return true
       }
     }
@@ -65,7 +66,7 @@ export default class AuthMiddleware {
    * Handle request
    */
   public async handle(
-    { auth }: HttpContextContract,
+    { auth, request }: HttpContextContract,
     next: () => Promise<void>,
     customGuards: (keyof GuardsList)[]
   ) {
@@ -74,7 +75,7 @@ export default class AuthMiddleware {
      * the config file
      */
     const guards = customGuards.length ? customGuards : [auth.name]
-    await this.authenticate(auth, guards)
+    await this.authenticate(auth, request, guards)
     await next()
   }
 }

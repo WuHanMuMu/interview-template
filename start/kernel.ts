@@ -43,9 +43,14 @@ Server.middleware.register([
 | Route.get('dashboard', 'UserController.dashboard').middleware('auth')
 |
 */
+
+
+RequestThrottler.useClientRecognizer(new CustomClientRecognizer())
 Server.middleware.registerNamed({
   auth: () => import('App/Middleware/Auth'),
-  throttle: () => {
-    return RequestThrottler.useClientRecognizer(new CustomClientRecognizer())
-  },
+  // throttle: () => {
+  //    RequestThrottler.useClientRecognizer(new CustomClientRecognizer())
+  //    return RequestThrottler.verifyClient
+  // },
+  throttle: 'Adonis/Addons/RequestThrottler/Middleware',
 })

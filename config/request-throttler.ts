@@ -1,11 +1,11 @@
 import { ThrottleConfig } from '@ioc:Adonis/Addons/RequestThrottler'
 
 export default {
-  maxAttempts: 10,
+  maxAttempts: 1,
 
-  maxAttemptPeriod: 600000,
+  maxAttemptPeriod: 1,
 
-  ttlUnits: 'ms',
+  ttlUnits: 'minute',
 
   cacheStorage: 'redis',
 
