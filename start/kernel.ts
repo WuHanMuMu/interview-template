@@ -10,7 +10,8 @@
 */
 
 import Server from '@ioc:Adonis/Core/Server'
-
+import RequestThrottler from '@ioc:Adonis/Addons/RequestThrottler'
+import CustomClientRecognizer from 'App/Middleware/requestThrottle'
 /*
 |--------------------------------------------------------------------------
 | Global middleware
@@ -20,7 +21,11 @@ import Server from '@ioc:Adonis/Core/Server'
 | are defined for every HTTP requests.
 |
 */
-Server.middleware.register([() => import('@ioc:Adonis/Core/BodyParser')])
+Server.middleware.register([
+  () => import('@ioc:Adonis/Core/BodyParser'),
+  () => import('App/Middleware/extend'),
+])
+// Server.middleware.register([() => import('App/Middleware/extend')])
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +43,9 @@ Server.middleware.register([() => import('@ioc:Adonis/Core/BodyParser')])
 | Route.get('dashboard', 'UserController.dashboard').middleware('auth')
 |
 */
-Server.middleware.registerNamed({})
+Server.middleware.registerNamed({
+  auth: () => import('App/Middleware/Auth'),
+  throttle: () => {
+    return RequestThrottler.useClientRecognizer(new CustomClientRecognizer())
+  },
+})

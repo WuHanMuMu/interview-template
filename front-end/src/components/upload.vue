@@ -23,7 +23,7 @@
     </el-row>
     <el-row>
       <el-col :span="12" :offset="6">
-         <el-form-item label="商品秒杀" prop="description" class='input'>
+         <el-form-item label="商品描述" prop="description" class='input'>
           <el-input class='input'
             v-model="ruleForm.description"
             type="input"
@@ -34,13 +34,24 @@
     </el-row>
     <el-row>
       <el-col :span="12" :offset="6">
-        <el-form-item label="密码" prop="password" class='input'>
+         <el-form-item label="商品价格" prop="price" class='input'>
           <el-input class='input'
-            v-model="ruleForm.password"
-            type="password"
-            autocomplete="off"
+            v-model="ruleForm.price"
+            type="input"
+            autocomplete="true"
           ></el-input>
-       </el-form-item> 
+          </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12" :offset="6">
+         <el-form-item label="商品商品库存" prop="stock" class='input'>
+          <el-input class='input'
+            v-model="ruleForm.stock"
+            type="input"
+            autocomplete="true"
+          ></el-input>
+          </el-form-item>
       </el-col>
     </el-row>
    
@@ -110,11 +121,12 @@ export default {
     submitForm(formName: string | number) {
       this.$refs[formName].validate((valid: any) => {
         if (valid) {
-          axios.post('/users/register', {
+          axios.post('/products/create', {
             ...this.ruleForm,
           }).then((res: any) => {
             console.log(res)
-            this.$emit('loginSuccess', res.data)
+            this.resetForm(formName)
+            // this.$emit('loginSuccess', res.data)
           })
         } else {
           console.log('error submit!!')

@@ -8,5 +8,20 @@
 declare module '@ioc:Adonis/Core/HttpContext' {
   interface HttpContextContract {
     success(message: any): void
+    // userId: number
+    // RequestContract : typeof RequestContract{
+    //   userId: number
+    // }
+    // export interface Legged {
+    //   numberOfLegs: number;
+    // }
+    // request : imple{
+    //   userId: number
+    // }
+  }
+}
+declare module '@ioc:Adonis/Core/Request' {
+  interface RequestContract {
+    userId: number
   }
 }

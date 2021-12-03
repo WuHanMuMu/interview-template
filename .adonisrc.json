@@ -25,7 +25,8 @@
     "@adonisjs/shield",
     "@adonisjs/lucid",
     "@adonisjs/auth",
-    "@adonisjs/redis"
+    "@adonisjs/redis",
+    "adonis-request-throttler"
   ],
   "metaFiles": [
     {

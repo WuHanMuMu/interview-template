@@ -21,9 +21,11 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/list', 'ProductController.list').middleware('auth')
-  Route.get('/create', 'ProductController.create')
+  Route.post('/list', 'ProductController.list').middleware('auth')
+  Route.post('/create', 'ProductController.create')
 }).prefix('/products')
+
+Route.post('/order/create', 'OrderController.create').middleware('auth').middleware('throttle:1,1') //一分钟一个订单
 
 Route.group(() => {
   Route.post('/login', 'AuthController.login')

@@ -9,7 +9,7 @@
     size="small"
   > 
     <el-row>
-      <el-col :span="12" :offset="6">
+      <el-col v-if="!login" :span="12" :offset="6">
         <el-form-item label="用户名" prop="username" class='input'>
           
           <el-input 
@@ -49,7 +49,7 @@
       <el-button type="primary" @click="submitForm('ruleForm')"
         >Submit</el-button
       >
-      <el-button @click="resetForm('ruleForm')">Reset</el-button>
+      <el-button @click="resetForm('ruleForm')">去登录</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -104,18 +104,29 @@ export default {
         checkPass: [{ validator: validatePass2, trigger: 'blur' }],
         age: [{ validator: checkAge, trigger: 'blur' }],
       },
+      login: false
     }
   },
   methods: {
     submitForm(formName: string | number) {
       this.$refs[formName].validate((valid: any) => {
         if (valid) {
-          axios.post('/users/register', {
-            ...this.ruleForm,
-          }).then((res: any) => {
-            console.log(res)
-            this.$emit('loginSuccess', res.data)
-          })
+          if (!this.login) {
+            axios.post('/users/register', {
+              ...this.ruleForm,
+            }).then((res: any) => {
+              console.log(res)
+              this.$emit('loginSuccess', res.data)
+            })
+          }else {
+              axios.post('/users/login', {
+              ...this.ruleForm,
+            }).then((res: any) => {
+              console.log(res)
+              this.$emit('loginSuccess', {token: res.data.token, name: this.ruleForm.name || this.ruleForm.email})
+            })
+          }
+         
         } else {
           console.log('error submit!!')
           return false
@@ -123,7 +134,8 @@ export default {
       })
     },
     resetForm(formName: string | number) {
-      this.$refs[formName].resetFields()
+      // this.$refs[formName].resetFields()
+      this.login = !this.login
     },
   },
   emits: ['loginSuccess']

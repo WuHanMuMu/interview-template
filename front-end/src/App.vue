@@ -3,16 +3,16 @@
     <el-container>
       <el-header> 商品购物
           <span v-if="!login">去登录</span>
-          <span v-if="login">{{user.name}}</span>
+          <span v-else>{{user.name}}</span>
       </el-header>
       <el-main>
         <div v-if="admin">
           <upload></upload>
-          <el-button type="primary">el-button</el-button>
+          <!-- <el-button type="primary">el-button</el-button> -->
         </div>
         <div v-else>
           <login v-if="!login" @loginSuccess="loginSuccess"></login>
-          <productList v-if="login">商品列表</productList>
+          <product-list v-bind:login="login" v-bind:user="user" v-if="login">商品列表</product-list>
           <div>
         </div>
         
@@ -25,10 +25,14 @@
 
 <script lang="ts">
 import login from './components/login.vue'
+import upload from './components/upload.vue'
+import product from './components/productList.vue'
 export default {
   name: 'App',
   components: {
-    login
+    login,
+    upload,
+    'product-list': product
   },
   // props: ['login', 'user'],
   data: () => ({
@@ -38,13 +42,19 @@ export default {
       password: '',
       token: ''
     },
+    fuck: '123',
     admin: false
   }),
   methods: {
     loginSuccess(user: any) {
+      console.log(user)
       this.login = true
-      this.user.name = '小汪'
-      this.user.token = user.token
+      this.user = {
+        token: user.token,
+        name: user.name
+      }
+      // console.log('====>',this.user)
+      // this.user.token = user.token
     }
   },
   mounted() {
