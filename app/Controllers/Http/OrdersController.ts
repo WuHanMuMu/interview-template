@@ -9,18 +9,17 @@ export default class OrdersController {
   public async create({ request, auth, success, response }: HttpContextContract) {
     // return 100
     const productId: number = request.input('productId')
-    
+
     if (!productId) throw new Error('商品id是需要参数')
-    
+
     const product = await Product.find(productId)
-    
+
     if (!product || product.stock < 1) throw new Error('商品库存不足')
     const userId = auth.user?.id
     // return 100
     const transaction = await Database.transaction()
     // return 100
-    console.log('xxx')
-    
+
     try {
       const orderNo = await this.orderNo()
       const [order] = await transaction
@@ -36,14 +35,10 @@ export default class OrdersController {
           updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
         })
         .returning('*')
-      console.log('xx', order)
       await transaction.commit()
-      console.log('200')
-      response.send({ hhhh: 1 })
-      // return '100'
       success({
         orderId: order,
-        orderNo
+        orderNo,
       })
 
       // 15秒后自动完成订单
@@ -51,7 +46,6 @@ export default class OrdersController {
         this.finish(orderNo)
       }, 1000)
     } catch (error) {
-      console.log('eee', error)
       await transaction.rollback()
       throw error
     }
