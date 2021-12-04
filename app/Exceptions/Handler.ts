@@ -28,6 +28,7 @@ export default class ExceptionHandler extends HttpExceptionHandler {
     super(Logger)
   }
   public async handle(error: any, ctx: HttpContextContract) {
+    console.log(error)
     ctx.logger.error(error)
     ctx.response.status(error.status || 503).send(error.message)
   }

@@ -22,7 +22,7 @@
 ```
 npm i
 ```
-然后同步数据
+然后同步数据库表结构
 ```
 node ace migration:run
 ```
@@ -30,6 +30,8 @@ node ace migration:run
 ```
 node ace serve
 ```
+
+
 
 
 

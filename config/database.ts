@@ -42,6 +42,7 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
         user: Env.get('MYSQL_USER'),
         password: Env.get('MYSQL_PASSWORD'),
         database: Env.get('MYSQL_DATABASE'),
+        // log: console.log,
       },
       healthCheck: true,
       debug: true,

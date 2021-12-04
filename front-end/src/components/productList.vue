@@ -1,5 +1,14 @@
 
 <template>
+  <div>
+  <el-row>
+    <el-col :span=8 :offset=6>
+      <el-input v-model="input" placeholder="搜索商品名称" />
+    </el-col>
+    <el-col :span=4 :offset=0>
+      <el-button @click="fetch">搜索 </el-button>
+    </el-col>
+  </el-row>
   <el-row>
     <el-col
       v-for="product in list"
@@ -24,6 +33,7 @@
       </el-card>
     </el-col>
   </el-row>
+  </div>
 </template>
 <script lang="ts">
 // import Vue from 'vue'
@@ -34,6 +44,7 @@ export default {
     return {
       list: [],
       // user: this.user
+      input: ''
     }
   },
   // props: {
@@ -43,38 +54,39 @@ export default {
   // },
   props: ['user', 'login', 'fuck'],
   methods: {
-    purchase(id) {
-
-      setTimeout(()=>{
+    purchase(id) {  
+      axios.post('/order/create',{
+        productId: id
+      }, {headers: {
+     Authorization: 'Bearer ' + this.user.token
+   }}).then(res=>{
+     const {data} = res;
+     console.log(data);
+     setTimeout(()=>{
          ElNotification({
         title: 'Success',
         message: '购买成功',
         type: 'success',
       })
       }, 1000)
-      
-    //   axios.post('/order/create',{
-    //     productId: id
-    //   }, {headers: {
-    //  Authorization: 'Bearer ' + this.user.token
-  //  }}).then(res=>{
-  //    const {data} = res;
-     
-  //  })
+
+   })
       
     },
-  },
-  mounted(){
-    console.log(this)
-    console.log(this.user, this.name, this.token)
-    console.log(this.login, this.fuck)
-   axios.post('/products/list',{}, {headers: {
+    fetch() {
+   axios.post('/products/list',{
+     name: this.input
+   }, {headers: {
      Authorization: 'Bearer ' + this.user.token
    }}).then(res=>{
      const {data} = res;
      console.log(data);
      this.list = data.data
    })
+    }
+  },
+  mounted(){
+    this.fetch()
   }
 }
 </script>

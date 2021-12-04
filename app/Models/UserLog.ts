@@ -11,7 +11,9 @@ export default class UserLog extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @column()
+  @column({
+    columnName: 'userId',
+  })
   public userId: number
 
   @column()
@@ -23,7 +25,9 @@ export default class UserLog extends BaseModel {
   @column()
   public ip: string
 
-  @column()
+  @column({
+    columnName: 'userAgent',
+  })
   public userAgent: string
 
   @column()

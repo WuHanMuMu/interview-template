@@ -11,10 +11,14 @@ export default class Order extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @column()
+  @column({
+    columnName: 'userId',
+  })
   public userId: number
 
-  @column()
+  @column({
+    columnName: 'productId',
+  })
   public productId: number
 
   @column()
@@ -29,6 +33,8 @@ export default class Order extends BaseModel {
   @column()
   public status: number // 0初始化 10支付中 20 支付成功 30 支付失败 40 退款等
 
-  @column()
+  @column({
+    columnName: 'orderNo',
+  })
   public orderNo: string
 }

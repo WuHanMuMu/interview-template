@@ -24,6 +24,8 @@ import CustomClientRecognizer from 'App/Middleware/requestThrottle'
 Server.middleware.register([
   () => import('@ioc:Adonis/Core/BodyParser'),
   () => import('App/Middleware/extend'),
+  () => import('App/Middleware/SilentAuth'),
+  () => import('App/Middleware/userOperator'),
 ])
 // Server.middleware.register([() => import('App/Middleware/extend')])
 
