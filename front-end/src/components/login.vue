@@ -47,7 +47,7 @@
    
     <el-form-item>
       <el-button type="primary" @click="submitForm('ruleForm')"
-        >Submit</el-button
+        >提交</el-button
       >
       <el-button @click="resetForm('ruleForm')">去登录</el-button>
     </el-form-item>
