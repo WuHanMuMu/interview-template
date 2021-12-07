@@ -57,6 +57,42 @@ node ace serve
    1. 创建订单
 
 
+## 其它
+
+限流测试命令
+```
+ ab -n 100 -c 20 -H 'Authorization: bearer Y2t3cTh3ZGY4MDAwMWJ5OWdoMjNqZnppcQ.JatNBpfQs5dbu_QFis2mYa0p-37TJDhAfe1vs-eXFw-ylhBMG9gBCVhi_pGk' http://127.0.0.1:3333/order/test
+```
+
+
+修改点
+1. 密码 明文传输 
+2. queue 下游通知改为queue
+
+adonisjs 
+1. 中间件的 设计
+   1. 所有的中间件会在路由到达之前串行化执行，调用next之前不会进入路由
+2. ioc 的实现
+   v5的版本官方文档里面没有提到ioc，在v4的文档里面提到了
+   实际上依赖注入和egg的类似，在运行时注入
+   但是adonisjs里面推荐是集中注册，而不是每个组件注册，
+   ```typescript
+   import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+   import GreetingService from '@ioc:MyProject/GreetingService'
+   export default class TestController {
+   public async index ({ response }: HttpContextContract) {
+      GreetingService.sayHello('Bob')
+      // more code ....
+      return response.ok({
+         data: {},
+      })
+   }
+   }
+   ```
+   实现方式如上，不需要实例化
+3. 安全性设计 cros xss
+vue 
+基础
 
 
 

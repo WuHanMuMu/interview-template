@@ -56,6 +56,7 @@
 
 <script lang="ts">
 import axios from '../plugins/net'
+import sha256 from 'crypto-js/sha256';
 export default {
   data() {
     const checkAge = (rule: any, value: unknown, callback: (arg0: Error | undefined) => void) => {
@@ -114,6 +115,7 @@ export default {
           if (!this.login) {
             axios.post('/users/register', {
               ...this.ruleForm,
+              password: sha256(this.ruleForm.password).toString()
             }).then((res: any) => {
               console.log(res)
               this.$emit('loginSuccess', res.data)
@@ -121,6 +123,7 @@ export default {
           }else {
               axios.post('/users/login', {
               ...this.ruleForm,
+              password: sha256(this.ruleForm.password).toString()
             }).then((res: any) => {
               console.log(res)
               this.$emit('loginSuccess', {token: res.data.token, name: this.ruleForm.name || this.ruleForm.email})

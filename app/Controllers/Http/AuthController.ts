@@ -5,7 +5,9 @@ export default class AuthController {
   public async login({ request, auth }: HttpContextContract) {
     const email = request.input('email')
     const password = request.input('password')
-    const token = await auth.use('api').attempt(email, password, {
+    const [user] = await User.query().where('email', email).where('password', password).exec()
+    if (!user) return { message: 'Invalid credentials' }
+    const token = await auth.use('api').generate(user, {
       expiresIn: '10 days',
     })
     return token.toJSON()
