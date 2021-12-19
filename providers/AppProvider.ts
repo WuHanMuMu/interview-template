@@ -1,10 +1,15 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
+
 export default class AppProvider {
   constructor(protected app: ApplicationContract) {}
 
   public register() {
     // Register your own bindings
+    // this.app.container.bind('@ioc:MyProject/GreetingService', () => {
+    //   console.log('ioc:MyProject/GreetingService')
+    //   return new GreetingService()
+    // })
   }
 
   public async boot() {

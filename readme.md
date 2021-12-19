@@ -70,19 +70,21 @@ node ace serve
 2. queue 下游通知改为queue
 
 adonisjs 
-1. 中间件的 设计
+1. 中间件的 设计 koa 
    1. 所有的中间件会在路由到达之前串行化执行，调用next之前不会进入路由
 2. ioc 的实现
    v5的版本官方文档里面没有提到ioc，在v4的文档里面提到了
    实际上依赖注入和egg的类似，在运行时注入
    但是adonisjs里面推荐是集中注册，而不是每个组件注册，
    ioc注册这一块代码主要在 adonisjs/fold下面
-   核心是 一个 register 和 resolve
+   核心是 一个 register 和 resolve 
    注册时根据 namespace 和参数 挂载 app 实例下面， 这个时候就会直接实例化，根据注册的类型 比如单例还是多实例这样的，注册一个对象或者函数
+   app.namespace.d = () = {}, 
    获取时，根据 namespace获取对应实例 核心就一行
    ```typescript
    this.container.lookupOrFail(tokens.join('.'), prefixNamespace)
    ```
+
    这里是使用使用例子
    ```typescript
    // provider.ts
@@ -93,6 +95,7 @@ adonisjs
    export default class TestController {
    public async index ({ response }: HttpContextContract) {
       GreetingService.sayHello('Bob')
+
       // more code ....
       return response.ok({
          data: {},
@@ -102,15 +105,22 @@ adonisjs
    ```
    使用方式如上，不需要实例化
 3. 安全性设计 
+   mvc 的安全设计 
+   view 
    主要是基于 shield 这个库实现
    1. csrf 跨域请求伪造 这个一般如果前后端分离，是不需要这个的，如果不使用cookie的话没有这个问题
    2. csp 资源安全策略，设置安全的加载资源来源 防止脚本共计
    3. DNS Prefetch dns的提前解析
    4. Frame guard 是否允许iframe标签解析
    5. HSTS 是否允许通过http访问
+   6. 一次性url，
 vue 
 基础
 
+
+框架debug
+ 整体流程跑通
+node ace serve  --node-args="--inspect"
 
 
 

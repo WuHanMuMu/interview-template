@@ -1,7 +1,6 @@
 import Rabbit from '@ioc:Adonis/Addons/Rabbit'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import orderEvent from 'App/event/orderEvent'
 import Order from 'App/Models/Order'
 import Product from 'App/Models/Product'
 import moment = require('moment')
@@ -61,8 +60,8 @@ export default class OrdersController {
     // 这里讲道理是应该使用rabbitmq之类的
     // 简单一点 直接用node 的eventemitter
     // orderEvent.emit('order:finished', order)
-    // Rabbit.assertQueue('order:finished')
-    Rabbit.sendToQueue('order:finished', Buffer.from(JSON.stringify(order)))
+    await Rabbit.assertQueue('order:finished')
+    await Rabbit.sendToQueue('order:finished', Buffer.from(JSON.stringify(order)))
   }
 
   private async orderNo(retry = 5) {

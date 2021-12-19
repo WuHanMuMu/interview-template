@@ -15,10 +15,17 @@
   },
   "preloads": [
     "./start/routes",
-    "./start/kernel"
+    "./start/kernel",
+    {
+      "file": "./start/rabbit",
+      "environment": [
+        "web"
+      ]
+    }
   ],
   "providers": [
     "./providers/AppProvider",
+    "./providers/myProvider",
     "@adonisjs/core",
     "@adonisjs/session",
     "@adonisjs/view",

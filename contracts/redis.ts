@@ -7,6 +7,17 @@
 
 declare module '@ioc:Adonis/Addons/Redis' {
   interface RedisConnectionsList {
-    local: RedisConnectionConfig,
+    local: RedisConnectionConfig
+  }
+}
+
+declare module '@ioc:MyProject/GreetingService' {
+  export interface GreetingService {
+    sayHello(name: string): void
+  }
+}
+declare module '@ioc:MyNameSpace/MyService' {
+  export interface MyServiceContract {
+    protocol?: string
   }
 }
