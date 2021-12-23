@@ -1,11 +1,5 @@
 /*
-|--------------------------------------------------------------------------
-| Preloaded File
-|--------------------------------------------------------------------------
-|
-| Any code written inside this file will be executed during the application
-| boot.
-|
+  这里是rabbitmq消费者，消费者接收到消息后，更新订单状态，更新商品库存
 */
 import Rabbit, { MessageContract } from '@ioc:Adonis/Addons/Rabbit'
 import Order from 'App/Models/Order'

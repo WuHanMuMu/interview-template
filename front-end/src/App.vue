@@ -42,7 +42,6 @@ export default {
       password: '',
       token: ''
     },
-    fuck: '123',
     admin: false
   }),
   methods: {
